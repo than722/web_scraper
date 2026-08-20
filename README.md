@@ -35,19 +35,6 @@ npx playwright install chromium
 npm run scan -- --query "cordless drill" --min-profit-pct 50 --top-n 5 --json-out output/report.json
 ```
 
-### Budget Modes
-
-- **`normal`** (default): Balanced scanning across Target, Best Buy, Harbor Freight, Home Depot, Lowe's, Ollie's, Five Below, and TJ Maxx/Marshalls/Sierra/Burlington/Ross.
-- **`low`**: Cache-first (24-hour TTL), fewer items per store. Use when API credits are limited.
-- **`aggressive`**: All stores including Walmart, Dollar General, Hobby Lobby, and Big Lots. No caching.
-
-### Credit-Aware Mode (recommended when GitHub credits are high)
-
-When your usage is high (for example 90%), run in low budget mode:
-
-```powershell
-npm run scan -- --query "drill" --credit-usage-pct 90 --budget-mode auto --json-out output/report_drill.json
-```
 
 What this does:
 
@@ -61,32 +48,11 @@ Force a fresh run:
 npm run scan -- --query "drill" --credit-usage-pct 90 --budget-mode auto --refresh
 ```
 
-### Aggressive Mode (full coverage)
-
-To scan ALL stores for maximum opportunities:
+3. Example alternate query (tools and small furniture):
 
 ```powershell
-npm run scan -- --query "tool set" --budget-mode aggressive --min-profit-pct 50 --json-out output/report_full.json
-```
-
-### Category-Focused Scanning
-
-Target specific high-margin categories:
-
-```powershell
-npm run scan -- --category "tools" --min-profit-pct 50
-npm run scan -- --query "bluetooth speaker" --budget-mode aggressive
-npm run scan -- --query "desk lamp" --budget-mode aggressive
-```
-
-### Example Queries
-
-```powershell
-npm run scan -- --query "cordless drill" --min-profit-pct 50 --top-n 5
-npm run scan -- --query "circular saw" --budget-mode aggressive
-npm run scan -- --query "bluetooth speaker" --budget-mode normal
-npm run scan -- --query "tool box" --budget-mode aggressive --json-out output/report_tools.json
-npm run scan -- --query "desk lamp" --budget-mode low --json-out output/report_lamps.json
+npm run scan -- --query "tool set"
+npm run scan -- --query "end table"
 ```
 
 ## Output
