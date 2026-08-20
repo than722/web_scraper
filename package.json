@@ -1,0 +1,17 @@
+{
+  "name": "web-scraper",
+  "version": "1.0.0",
+  "description": "This project scans public retail search pages for stores within 100 miles of Cedar Falls, IA,\r then finds cross-store price gaps that can support 50%+ flip margins.",
+  "main": "index.js",
+  "scripts": {
+    "scan": "node src/flip-finder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "playwright": "^1.62.1"
+  }
+}

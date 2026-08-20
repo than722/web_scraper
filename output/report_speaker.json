@@ -1,0 +1,392 @@
+{
+  "generatedAt": "2026-08-20T05:52:11.320Z",
+  "query": "bluetooth speaker",
+  "budgetMode": "aggressive",
+  "creditUsagePct": 0,
+  "radiusMiles": 100,
+  "storesWithinRadius": [
+    "Walmart Supercenter",
+    "Target",
+    "Fleet Farm",
+    "Blain's Farm & Fleet",
+    "Costco Wholesale",
+    "Sam's Club",
+    "At Home",
+    "Menards",
+    "The Home Depot",
+    "Lowe's Home Improvement",
+    "Northern Tool + Equipment",
+    "Harbor Freight Tools",
+    "Ace Hardware",
+    "True Value Hardware",
+    "Best Buy",
+    "Dollar Tree",
+    "Family Dollar",
+    "Ollie's Bargain Outlet",
+    "Five Below",
+    "TJ Maxx",
+    "Marshalls",
+    "Sierra",
+    "Ross Dress for Less",
+    "Burlington",
+    "Big Lots",
+    "Hobby Lobby",
+    "HomeGoods"
+  ],
+  "productsScraped": 32,
+  "scrapedProducts": [
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Altec Lansing HydraMini Wireless Bluetooth Speaker, IP67 Waterproof, USB-C, 6-Hour Playtime",
+      "price": 29.99,
+      "sku": "92670723",
+      "url": "https://www.target.com/p/-/A-92670723",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Altec Lansing HydraMini Wireless Bluetooth Speaker, IP67 Waterproof, USB-C, 6-Hour Playtime",
+      "price": 24.99,
+      "sku": "92670719",
+      "url": "https://www.target.com/p/-/A-92670719",
+      "rating": 4.77,
+      "reviewCount": 34
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa - Deep Sea Blue",
+      "price": 49.99,
+      "sku": "86214582",
+      "url": "https://www.target.com/p/-/A-86214582",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Amazon Echo Dot (5th Gen 2022) - Smart Speaker with Alexa",
+      "price": 49.99,
+      "sku": "87740774",
+      "url": "https://www.target.com/p/-/A-87740774",
+      "rating": 4.66,
+      "reviewCount": 600
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Retro Tech Wireless Bluetooth Speaker - heyday&#8482; Stucco: USB-C Connection, Bookshelf",
+      "price": 14.99,
+      "sku": "93176860",
+      "url": "https://www.target.com/p/-/A-93176860",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Retro Tech Wireless Bluetooth Speaker - heyday™",
+      "price": 14.99,
+      "sku": "94732775",
+      "url": "https://www.target.com/p/-/A-94732775",
+      "rating": 4.7,
+      "reviewCount": 30
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Large Portable Speaker - heyday&#8482;",
+      "price": 60,
+      "sku": "95017784",
+      "url": "https://www.target.com/p/-/A-95017784",
+      "rating": 4.8,
+      "reviewCount": 49
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Altec Lansing HydraMini 2.0 Bluetooth Speaker - Periwinkle Blue",
+      "price": 29.99,
+      "sku": "91947369",
+      "url": "https://www.target.com/p/-/A-91947369",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Altec Lansing HydraMini 2.0 Bluetooth Speaker",
+      "price": 29.99,
+      "sku": "93230733",
+      "url": "https://www.target.com/p/-/A-93230733",
+      "rating": 4.05,
+      "reviewCount": 45
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "JBL Xtreme 5 Portable Bluetooth Speaker - Black",
+      "price": 399.99,
+      "sku": "1006416984",
+      "url": "https://www.target.com/p/-/A-1006416984",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "JBL Xtreme 5 Portable Bluetooth Speaker",
+      "price": 399.99,
+      "sku": "1013038378",
+      "url": "https://www.target.com/p/-/A-1013038378",
+      "rating": 4.79,
+      "reviewCount": 32
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Sony ULT FIELD 1 Bluetooth Wireless Speaker - Off-White",
+      "price": 79.99,
+      "sku": "91963080",
+      "url": "https://www.target.com/p/-/A-91963080",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "iHome Wireless Charger with Apple Watch Charger, AirPods Charger, and Bluetooth Speaker – Grey (iPBT70G)",
+      "price": 71.99,
+      "sku": "1000498751",
+      "url": "https://www.target.com/p/-/A-1000498751",
+      "rating": 0,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Portable Bluetooth Speaker Black - heyday&#8482; M",
+      "price": 34.99,
+      "sku": "94246162",
+      "url": "https://www.target.com/p/-/A-94246162",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Portable Bluetooth Speaker - heyday™ M",
+      "price": 34.99,
+      "sku": "95051989",
+      "url": "https://www.target.com/p/-/A-95051989",
+      "rating": 4.47,
+      "reviewCount": 60
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "iLive Audio Waterproof, Shockproof Bluetooth Speaker with Speakerphone - Blue (ISBW108BU): Wireless USB Rechargeable",
+      "price": 14.99,
+      "sku": "53661319",
+      "url": "https://www.target.com/p/-/A-53661319",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "iLive Audio Waterproof, Shockproof Bluetooth Speaker with Speakerphone",
+      "price": 14.99,
+      "sku": "87872495",
+      "url": "https://www.target.com/p/-/A-87872495",
+      "rating": 4.56,
+      "reviewCount": 1662
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "JBL Charge 6 Portable Speaker - Purple: Bluetooth, IP68 Waterproof, 28-Hour Battery",
+      "price": 149.99,
+      "sku": "94602818",
+      "url": "https://www.target.com/p/-/A-94602818",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "JBL Charge 6 Portable Speaker",
+      "price": 149.99,
+      "sku": "94644913",
+      "url": "https://www.target.com/p/-/A-94644913",
+      "rating": 4.45,
+      "reviewCount": 527
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Anker Soundcore Select 4 Go Portable Waterproof Bluetooth Speaker - Purple",
+      "price": 23.99,
+      "sku": "95002909",
+      "url": "https://www.target.com/p/-/A-95002909",
+      "rating": 5,
+      "reviewCount": 1
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "JBL Portable Flip 7 Speaker - Purple",
+      "price": 129.99,
+      "sku": "94602823",
+      "url": "https://www.target.com/p/-/A-94602823",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "JBL Portable Flip 7 Speaker",
+      "price": 129.99,
+      "sku": "95032702",
+      "url": "https://www.target.com/p/-/A-95032702",
+      "rating": 4.45,
+      "reviewCount": 434
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Skullcandy Stomp Bluetooth Speaker – IPX7 Waterproof Wireless Portable Speaker, with LED Lightshow & Strobe Modes, 12 Hour Battery, Multi-Link",
+      "price": 119.99,
+      "sku": "1004414454",
+      "url": "https://www.target.com/p/-/A-1004414454",
+      "rating": 3.67,
+      "reviewCount": 3
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Altec Lansing HydraOrbit EverythingProof Bluetooth Speaker 2-Pack, Black",
+      "price": 24.99,
+      "sku": "1002564487",
+      "url": "https://www.target.com/p/-/A-1002564487",
+      "rating": 0,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Portable Bluetooth Speaker Black - heyday&#8482; S",
+      "price": 19.99,
+      "sku": "94246185",
+      "url": "https://www.target.com/p/-/A-94246185",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Marshall - Emberton III Portable Bluetooth Speaker with Rugged Waterproof / Dust-proof Wireless Design - Sage",
+      "price": 129.99,
+      "sku": "6618297",
+      "url": "https://www.bestbuy.com/product/marshall-emberton-iii-portable-bluetooth-speaker-with-rugged-waterproof-dust-proof-wireless-design-sage/CFCR4HZFG6/sku/6618297",
+      "rating": 4.8,
+      "reviewCount": 1092
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Marshall - Kilburn III Portable Wireless Bluetooth Speaker with Bass / Treble / Volume Controls and 3.5 mm Auxiliary Input - Black/Brass",
+      "price": 379.99,
+      "sku": "6632699",
+      "url": "https://www.bestbuy.com/product/marshall-kilburn-iii-portable-wireless-bluetooth-speaker-with-bass-treble-volume-controls-and-3-5-mm-auxiliary-input-black-brass/CFCR4HZ5H2/sku/6632699",
+      "rating": 4.8,
+      "reviewCount": 153
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Marshall - Major V Wireless On-Ear Bluetooth Headphones with Lightweight Foldable Design and Microphone for Calls - Black",
+      "price": 99.99,
+      "sku": "6584556",
+      "url": "https://www.bestbuy.com/product/marshall-major-v-wireless-on-ear-bluetooth-headphones-with-lightweight-foldable-design-and-microphone-for-calls-black/CFCR4HZHKX/sku/6584556",
+      "rating": 4.7,
+      "reviewCount": 112
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Marshall - Willen II Portable Bluetooth Speaker with Rugged Waterproof / Dust-proof Wireless Design - Cream",
+      "price": 89.99,
+      "sku": "6593716",
+      "url": "https://www.bestbuy.com/product/marshall-willen-ii-portable-bluetooth-speaker-with-rugged-waterproof-dust-proof-wireless-design-cream/CFCR4HZR3V/sku/6593716",
+      "rating": 4.9,
+      "reviewCount": 175
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Sony - XB100 Compact Bluetooth Speaker - Black",
+      "price": 43,
+      "sku": "6538164",
+      "url": "https://www.bestbuy.com/product/sony-xb100-compact-bluetooth-speaker-black/J7XSRH58TY/sku/6538164",
+      "rating": 4.5,
+      "reviewCount": 0
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Bose - SoundLink Flex (2nd Gen) Portable Bluetooth Speaker with Waterproof / Dustproof Design - Blue Dusk",
+      "price": 119.99,
+      "sku": "6590415",
+      "url": "https://www.bestbuy.com/product/bose-soundlink-flex-2nd-gen-portable-bluetooth-speaker-with-waterproof-dustproof-design-blue-dusk/J7C5V6T6V9/sku/6590415",
+      "rating": 4.8,
+      "reviewCount": 0
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Sony - ULT FIELD 1 Wireless Speaker - Black",
+      "price": 78,
+      "sku": "6577658",
+      "url": "https://www.bestbuy.com/product/sony-ult-field-1-wireless-speaker-black/J7XSRH5S8F/sku/6577658",
+      "rating": 4.7,
+      "reviewCount": 0
+    }
+  ],
+  "candidateCount": 2,
+  "candidates": [
+    {
+      "title": "Sony - XB100 Compact Bluetooth Speaker - Black",
+      "buyStore": "Best Buy",
+      "buyPrice": 43,
+      "buyUrl": "https://www.bestbuy.com/product/sony-xb100-compact-bluetooth-speaker-black/J7XSRH58TY/sku/6538164",
+      "buySku": "6538164",
+      "compStore": "Target",
+      "compPrice": 399.99,
+      "compUrl": "https://www.target.com/p/-/A-1006416984",
+      "compSku": "1006416984",
+      "estimatedProfitPct": 830.21,
+      "similarity": 0.462,
+      "confidence": 0.48
+    },
+    {
+      "title": "Portable Bluetooth Speaker Black - heyday&#8482; S",
+      "buyStore": "Target",
+      "buyPrice": 19.99,
+      "buyUrl": "https://www.target.com/p/-/A-94246185",
+      "buySku": "94246185",
+      "compStore": "Best Buy",
+      "compPrice": 43,
+      "compUrl": "https://www.bestbuy.com/product/sony-xb100-compact-bluetooth-speaker-black/J7XSRH58TY/sku/6538164",
+      "compSku": "6538164",
+      "estimatedProfitPct": 115.11,
+      "similarity": 0.462,
+      "confidence": 0.38
+    }
+  ],
+  "runtimeSec": 71.99,
+  "note": "Prices are scraped from public pages and should be manually validated before purchase."
+}

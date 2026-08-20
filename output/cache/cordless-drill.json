@@ -1,0 +1,432 @@
+{
+  "generatedAt": "2026-08-20T06:18:45.315Z",
+  "query": "cordless drill",
+  "budgetMode": "normal",
+  "creditUsagePct": 0,
+  "radiusMiles": 100,
+  "storesWithinRadius": [
+    "Walmart Supercenter",
+    "Target",
+    "Fleet Farm",
+    "Blain's Farm & Fleet",
+    "Costco Wholesale",
+    "Sam's Club",
+    "At Home",
+    "Menards",
+    "The Home Depot",
+    "Lowe's Home Improvement",
+    "Northern Tool + Equipment",
+    "Harbor Freight Tools",
+    "Ace Hardware",
+    "True Value Hardware",
+    "Best Buy",
+    "Dollar Tree",
+    "Family Dollar",
+    "Ollie's Bargain Outlet",
+    "Five Below",
+    "TJ Maxx",
+    "Marshalls",
+    "Sierra",
+    "Ross Dress for Less",
+    "Burlington",
+    "Big Lots",
+    "Hobby Lobby",
+    "HomeGoods"
+  ],
+  "productsScraped": 36,
+  "scrapedProducts": [
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "TINKR Hanging Kit",
+      "price": 20.99,
+      "sku": "94618328",
+      "url": "https://www.target.com/p/-/A-94618328",
+      "rating": 5,
+      "reviewCount": 5
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Apollo Tools DT4944P 3.6 Volt Rechargeable Screwdriver with 45pc Accessory Set Pink: Hand Drill Tool Kit, Lithium Ion Battery",
+      "price": 29.99,
+      "sku": "79856059",
+      "url": "https://www.target.com/p/-/A-79856059",
+      "rating": 3,
+      "reviewCount": 8
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Worx WX240L 4V 3-Speed Cordless Screwdriver",
+      "price": 49.99,
+      "sku": "82154208",
+      "url": "https://www.target.com/p/-/A-82154208",
+      "rating": 4.68,
+      "reviewCount": 82
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Apollo Tools DT4944 3.6 Volt Rechargeable Screwdriver with 45pc Accessory Set Red",
+      "price": 29.99,
+      "sku": "79856054",
+      "url": "https://www.target.com/p/-/A-79856054",
+      "rating": 4.25,
+      "reviewCount": 4
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Greenworks 26 Piece Ratcheting Screwdriver",
+      "price": 16.99,
+      "sku": "94408508",
+      "url": "https://www.target.com/p/-/A-94408508",
+      "rating": 3.59,
+      "reviewCount": 12
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Bosch Mini: 2-In-1: Cordless Drill & Screwdriver - Lights & Sounds,Ages 3+",
+      "price": 42.99,
+      "sku": "93390888",
+      "url": "https://www.target.com/p/-/A-93390888",
+      "rating": 0,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Command 9pk Damage-Free Hanging Small Wire Hooks with 12 Adhesive Strips Chili Pepper",
+      "price": 8.49,
+      "sku": "95082272",
+      "url": "https://www.target.com/p/-/A-95082272",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Command 9pk Damage-Free Hanging Small Wire Hooks with 12 Adhesive Strips",
+      "price": 8.49,
+      "sku": "1011105503",
+      "url": "https://www.target.com/p/-/A-1011105503",
+      "rating": 2.34,
+      "reviewCount": 3
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Greenworks 6pc Precision Screwdriver Set",
+      "price": 8.99,
+      "sku": "94408482",
+      "url": "https://www.target.com/p/-/A-94408482",
+      "rating": 3.67,
+      "reviewCount": 9
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Stalwart 65PC Cordless Drill Set with Bits, Red",
+      "price": 69.95,
+      "sku": "90920138",
+      "url": "https://www.target.com/p/-/A-90920138",
+      "rating": 1,
+      "reviewCount": 1
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "TINKR Home Essentials Kit with Canvas Roll-up Case",
+      "price": 29.99,
+      "sku": "94618326",
+      "url": "https://www.target.com/p/-/A-94618326",
+      "rating": 4.82,
+      "reviewCount": 27
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Hoey 146-Piece Home Repair Tool Kit – Household and Mechanic Tool Set with Plastic Toolbox for Home, Office, and College",
+      "price": 39.99,
+      "sku": "1006073055",
+      "url": "https://www.target.com/p/-/A-1006073055",
+      "rating": 4.73,
+      "reviewCount": 44
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Greenworks 40pc Household Tool Kit",
+      "price": 24.99,
+      "sku": "94408472",
+      "url": "https://www.target.com/p/-/A-94408472",
+      "rating": 4.23,
+      "reviewCount": 18
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Command 6pk Damage-Free Hanging Clear Medium Wire Toggle Hooks with Adhesive Strips for Christmas Lights and Holiday Decorations",
+      "price": 6.55,
+      "sku": "47974085",
+      "url": "https://www.target.com/p/-/A-47974085",
+      "rating": 4.24,
+      "reviewCount": 605
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Command Damage-Free Clear Decoration Clips with Adhesive Strips for Christmas Lights and Holiday Decoration",
+      "price": 7.49,
+      "sku": "14448521",
+      "url": "https://www.target.com/p/-/A-14448521",
+      "rating": 4.14,
+      "reviewCount": 1299
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Hoey Cordless Screwdriver, 47 in 1 Electric Screwdriver,Dual Position Handle with USB Cable LED Light for Home Office DIY Tools",
+      "price": 24.99,
+      "sku": "1006073297",
+      "url": "https://www.target.com/p/-/A-1006073297",
+      "rating": 4.62,
+      "reviewCount": 42
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Command 2pk 5-Cord Clip Organizer Black",
+      "price": 7.99,
+      "sku": "95295983",
+      "url": "https://www.target.com/p/-/A-95295983",
+      "rating": 4.84,
+      "reviewCount": 48
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Hoey Cordless Screwdriver, 47 in 1 Electric Screwdriver,Dual Position Handle with USB Cable LED Light for Home Office DIY Tools",
+      "price": 24.99,
+      "sku": "1006073318",
+      "url": "https://www.target.com/p/-/A-1006073318",
+      "rating": 4.77,
+      "reviewCount": 100
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Stalwart 74-Piece 12V Cordless Drill and 3.6V Screwdriver Set with Case",
+      "price": 79.95,
+      "sku": "90927038",
+      "url": "https://www.target.com/p/-/A-90927038",
+      "rating": 4.2,
+      "reviewCount": 5
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "COZONY 20V Cordless Tiller Cultivator with 2 Batteries & Charger, 9-Inch Width, 6.6\" Depth",
+      "price": 65.99,
+      "sku": "1011074411",
+      "url": "https://www.target.com/p/-/A-1011074411",
+      "rating": 0,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Greenworks POWERALL 24V Cordless Brushless Drill/Impact Driver with 2 Batteries of 2.0Ah and Charger",
+      "price": 89.99,
+      "sku": "94408452",
+      "url": "https://www.target.com/p/-/A-94408452",
+      "rating": 4.77,
+      "reviewCount": 191
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "Greenworks 28pc Multi-Material Drill and Driver Accy Kit",
+      "price": 14.99,
+      "sku": "94408477",
+      "url": "https://www.target.com/p/-/A-94408477",
+      "rating": 4.72,
+      "reviewCount": 7
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "SK Hand Tools SK02017 216P 7-in-1 Ratcheting Screwdriver",
+      "price": 33.99,
+      "sku": "1005063406",
+      "url": "https://www.target.com/p/-/A-1005063406",
+      "rating": 4.69,
+      "reviewCount": 19
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "COSLUS Cordless Electric Nail Drill File: Nail Drill Machine with Stepless Speed Knob for Acrylic Gel Dip Powder Polish",
+      "price": 19.99,
+      "sku": "1007358026",
+      "url": "https://www.target.com/p/-/A-1007358026",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "target",
+      "storeName": "Target",
+      "title": "COSLUS C42 Cordless Electric Nail Drill File: Nail Drill Machine with Stepless Speed Knob for Acrylic Gel Dip Powder Polish",
+      "price": 19.99,
+      "sku": "1007358027",
+      "url": "https://www.target.com/p/-/A-1007358027",
+      "rating": 3.34,
+      "reviewCount": 3
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "VEVOR - Cordless Drill Driver, 1/2 inch Metal Chuck, Dual-Speed Variable, Drill Driver Kit with Lithium Battery and Charger - Black,Orange",
+      "price": 47.9,
+      "sku": "11989384",
+      "url": "https://www.bestbuy.com/product/vevor-cordless-drill-driver-1-2-inch-metal-chuck-dual-speed-variable-drill-driver-kit-with-lithium-battery-and-charger-blackorange/JJGHK45T5J/sku/11989384",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Greenworks - 24V Cordless 4pcs Combo, Drill/Driver+Impact Driver+6.5\" Circular Saw+Flashlight - Green",
+      "price": 219.99,
+      "sku": "12476357",
+      "url": "https://www.bestbuy.com/product/greenworks-24v-cordless-4pcs-combo-drill-driver-impact-driver-6-5-circular-saw-flashlight-green/JJG7453S58/sku/12476357",
+      "rating": 4.7192984,
+      "reviewCount": 114
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "VEVOR - Cordless Drill Driver,5-In-1,Metal Chuck,Dual-Speed Variable,Drill Driver Kit with 2Lithium Batteries and Charger - Orange, black",
+      "price": 69.9,
+      "sku": "10947048",
+      "url": "https://www.bestbuy.com/product/vevor-cordless-drill-driver5-in-1metal-chuckdual-speed-variabledrill-driver-kit-with-2lithium-batteries-and-charger-orange-black/JJGHKKFQVH/sku/10947048",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Greenworks - 24V 1/2\" Cordless Brushless Hammer Drill Kit, with 2Ah Battery and Charger 3706602 - Green",
+      "price": 54.99,
+      "sku": "11211991",
+      "url": "https://www.bestbuy.com/product/greenworks-24v-1-2-cordless-brushless-hammer-drill-kit-with-2ah-battery-and-charger-3706602-green/JJG744RLFV/sku/11211991",
+      "rating": 4.512605,
+      "reviewCount": 119
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Greenworks - 24V Cordless Brushless Drill/Driver+Impact Driver Combo, with 2.0Ah Batteries and Charger - Green",
+      "price": 129.99,
+      "sku": "11212130",
+      "url": "https://www.bestbuy.com/product/greenworks-24v-cordless-brushless-drill-driver-impact-driver-combo-with-2-0ah-batteries-and-charger-green/JJG745397H/sku/11212130",
+      "rating": 4.7247705,
+      "reviewCount": 109
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "WORX - Nitro 20V SwitchDriver 2-in-1 Brushless Cordless Drill/Driver - Rotatable Dual 1/4\" Chucks (Battery & Charger Included) - Black",
+      "price": 139.99,
+      "sku": "6580263",
+      "url": "https://www.bestbuy.com/product/worx-nitro-20v-switchdriver-2-in-1-brushless-cordless-drill-driver-rotatable-dual-1-4-chucks-battery-charger-included-black/J366GTC44H/sku/6580263",
+      "rating": 4.8,
+      "reviewCount": 5
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Greenworks - 24V Cordless Brushless 400 in-lbs Drill/Driver + 6.5\" Circular Saw, with (2) 2.0Ah Batteries and Charger - Green",
+      "price": 149.99,
+      "sku": "12476360",
+      "url": "https://www.bestbuy.com/product/greenworks-24v-cordless-brushless-400-in-lbs-drill-driver-6-5-circular-saw-with-2-2-0ah-batteries-and-charger-green/JJG745397F/sku/12476360",
+      "rating": 4.7065215,
+      "reviewCount": 2
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Unique Bargains - WORKBLESS 21V Cordless Drill Set, Battery & Charger, 3/8\" Chuck, Variable Speed, 18+1 Torque, 28pcs Bits - Orange",
+      "price": 45.49,
+      "sku": "12172835",
+      "url": "https://www.bestbuy.com/product/unique-bargains-workbless-21v-cordless-drill-set-battery-charger-3-8-chuck-variable-speed-18-1-torque-28pcs-bits-orange/J2FQH6898W/sku/12172835",
+      "rating": null,
+      "reviewCount": 0
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Greenworks - 24V Cordless Brushless 800 in-lbs Drill/Driver, 21 Clutch, with 4.0Ah Battery and Charger - Green",
+      "price": 99.99,
+      "sku": "12476335",
+      "url": "https://www.bestbuy.com/product/greenworks-24v-cordless-brushless-800-in-lbs-drill-driver-21-clutch-with-4-0ah-battery-and-charger-green/JJG7453SVW/sku/12476335",
+      "rating": 4.72093,
+      "reviewCount": 86
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Greenworks - 24V 5pcs Combo, Drill/Driver+Impact Driver+Circular Saw+Oscillating Tool+Flashlight - Green",
+      "price": 279.99,
+      "sku": "12476363",
+      "url": "https://www.bestbuy.com/product/greenworks-24v-5pcs-combo-drill-driver-impact-driver-circular-saw-oscillating-tool-flashlight-green/JJG7453SVX/sku/12476363",
+      "rating": 4.704918,
+      "reviewCount": 122
+    },
+    {
+      "source": "bestbuy",
+      "storeName": "Best Buy",
+      "title": "Dewalt - 20V MAX Cordless Drill/Driver Kit with Battery and Charger, Brushless Motor (DCD777D1)",
+      "price": 139.99,
+      "sku": "12881677",
+      "url": "https://www.bestbuy.com/product/dewalt-20v-max-cordless-drill-driver-kit-with-battery-and-charger-brushless-motor-dcd777d1/J3Z2TY9ZWP/sku/12881677",
+      "rating": 5,
+      "reviewCount": 0
+    }
+  ],
+  "candidateCount": 2,
+  "candidates": [
+    {
+      "title": "Greenworks POWERALL 24V Cordless Brushless Drill/Impact Driver with 2 Batteries of 2.0Ah and Charger",
+      "buyStore": "Target",
+      "buyPrice": 89.99,
+      "buyUrl": "https://www.target.com/p/-/A-94408452",
+      "buySku": "94408452",
+      "compStore": "Best Buy",
+      "compPrice": 149.99,
+      "compUrl": "https://www.bestbuy.com/product/greenworks-24v-cordless-brushless-400-in-lbs-drill-driver-6-5-circular-saw-with-2-2-0ah-batteries-and-charger-green/JJG745397F/sku/12476360",
+      "compSku": "12476360",
+      "estimatedProfitPct": 66.67,
+      "similarity": 0.686,
+      "confidence": 0.644
+    },
+    {
+      "title": "Greenworks - 24V 1/2\" Cordless Brushless Hammer Drill Kit, with 2Ah Battery and Charger 3706602 - Green",
+      "buyStore": "Best Buy",
+      "buyPrice": 54.99,
+      "buyUrl": "https://www.bestbuy.com/product/greenworks-24v-1-2-cordless-brushless-hammer-drill-kit-with-2ah-battery-and-charger-3706602-green/JJG744RLFV/sku/11211991",
+      "buySku": "11211991",
+      "compStore": "Target",
+      "compPrice": 89.99,
+      "compUrl": "https://www.target.com/p/-/A-94408452",
+      "compSku": "94408452",
+      "estimatedProfitPct": 63.65,
+      "similarity": 0.581,
+      "confidence": 0.569
+    }
+  ],
+  "runtimeSec": 64.6,
+  "note": "Prices are scraped from public pages and should be manually validated before purchase."
+}

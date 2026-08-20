@@ -1,0 +1,29 @@
+rank,name,tier,address,city,state,zip
+1,Walmart Supercenter,Tier 1: Mega-Retailers,525 Brandilynn Blvd,Cedar Falls,IA,50613
+2,Target,Tier 1: Mega-Retailers,214 Viking Plaza Dr,Cedar Falls,IA,50613
+3,Fleet Farm,Tier 1: Mega-Retailers,2650 Fleet Way,Cedar Falls,IA,50613
+4,Blain's Farm & Fleet,Tier 1: Mega-Retailers,8445 Hudson Rd,Cedar Falls,IA,50613
+5,Costco Wholesale,Tier 1: Mega-Retailers,2810 Coralville Pkwy,Coralville,IA,52241
+6,Sam's Club,Tier 1: Mega-Retailers,2605 Blairs Ferry Rd NE,Cedar Rapids,IA,52402
+7,At Home,Tier 1: Mega-Retailers,420 Crosslines Dr,Waterloo,IA,50701
+8,Menards,Tier 2: Home Improvement,6418 University Ave,Cedar Falls,IA,50613
+9,The Home Depot,Tier 2: Home Improvement,2101 Waterloo Rd,Cedar Falls,IA,50613
+10,Lowe's Home Improvement,Tier 2: Home Improvement,2915 Logan Ave,Waterloo,IA,50703
+11,Northern Tool + Equipment,Tier 2: Home Improvement,4850 1st Ave NE,Cedar Rapids,IA,52402
+12,Harbor Freight Tools,Tier 2: Home Improvement,141 River Ridge Dr,Waterloo,IA,50701
+13,Ace Hardware,Tier 2: Home Improvement,1920 Valley Park Dr,Cedar Falls,IA,50613
+14,True Value Hardware,Tier 2: Home Improvement,3508 Kimball Ave,Waterloo,IA,50702
+15,Best Buy,Tier 6: Electronics,1502 Flammang Dr,Waterloo,IA,50701
+16,Dollar General,Tier 7: Value & Dollar,Tier 7,290 Branch St,Cedar Falls,IA,50613
+17,Dollar Tree,Tier 7: Value & Dollar,6207 University Ave,Cedar Falls,IA,50613
+18,Family Dollar,Tier 7: Value & Dollar,1222 Waterloo Rd,Cedar Falls,IA,50613
+19,Ollie's Bargain Outlet,Tier 7: Value & Dollar,3600 S 1st Ave,Iowa City,IA,52240
+20,Five Below,Tier 7: Value & Dollar,1506 Flammang Dr,Waterloo,IA,50701
+21,TJ Maxx,Tier 4: Department & Softlines,1512 Flammang Dr,Waterloo,IA,50701
+22,Marshalls,Tier 4: Department & Softlines,1450 Twixt Town Rd,Cedar Rapids,IA,52402
+23,Sierra,Tier 4: Department & Softlines,1450 Twixt Town Rd,Cedar Rapids,IA,52402
+24,Ross Dress for Less,Tier 4: Department & Softlines,2743 Coral Ridge Ave,Coralville,IA,52241
+25,Burlington,Tier 4: Department & Softlines,250 Coral Ridge Ave,Coralville,IA,52241
+26,Big Lots,Tier 7: Value & Dollar,121 East Towne Ctr,Waterloo,IA,50707
+27,Hobby Lobby,Tier 6: Electronics,110 Viking Plaza Dr,Cedar Falls,IA,50613
+28,HomeGoods,Tier 9: Furniture,513 Brandilynn Blvd,Cedar Falls,IA,50613
