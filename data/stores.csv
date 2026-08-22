@@ -14,7 +14,7 @@ rank,name,tier,address,city,state,zip
 13,Ace Hardware,Tier 2: Home Improvement,1920 Valley Park Dr,Cedar Falls,IA,50613
 14,True Value Hardware,Tier 2: Home Improvement,3508 Kimball Ave,Waterloo,IA,50702
 15,Best Buy,Tier 6: Electronics,1502 Flammang Dr,Waterloo,IA,50701
-16,Dollar General,Tier 7: Value & Dollar,Tier 7,290 Branch St,Cedar Falls,IA,50613
+16,Dollar General,Tier 7: Value & Dollar,290 Branch St,Cedar Falls,IA,50613
 17,Dollar Tree,Tier 7: Value & Dollar,6207 University Ave,Cedar Falls,IA,50613
 18,Family Dollar,Tier 7: Value & Dollar,1222 Waterloo Rd,Cedar Falls,IA,50613
 19,Ollie's Bargain Outlet,Tier 7: Value & Dollar,3600 S 1st Ave,Iowa City,IA,52240
@@ -27,3 +27,12 @@ rank,name,tier,address,city,state,zip
 26,Big Lots,Tier 7: Value & Dollar,121 East Towne Ctr,Waterloo,IA,50707
 27,Hobby Lobby,Tier 6: Electronics,110 Viking Plaza Dr,Cedar Falls,IA,50613
 28,HomeGoods,Tier 9: Furniture,513 Brandilynn Blvd,Cedar Falls,IA,50613
+29,Theisens,Tier 2: Home Improvement,VERIFY ADDRESS,Waterloo,IA,50701
+30,Black Hawk Equipment,Tier 3: Local & Independent,4325 University Avenue,Cedar Falls,IA,50613
+31,Black Hawk Equipment,Tier 3: Local & Independent,324 West 15th Street,Waterloo,IA,50702
+32,O'Donnell Ace Hardware,Tier 3: Local & Independent,703 E 18th St,Cedar Falls,IA,50613
+33,Edgewood Hardware,Tier 3: Local & Independent,340 Edgewood Rd NW,Cedar Rapids,IA,52405
+34,Acme Tools,Tier 3: Local & Regional,1943 Blairs Ferry Rd NE,Cedar Rapids,IA,52402
+29,Menards,Tier 2: Home Improvement,1051 E San Marnan Dr,Waterloo,IA,50702
+30,Menards,Tier 2: Home Improvement,504 Iowa Ave W,Marshalltown,IA,50158
+31,Menards,Tier 2: Home Improvement,540 Village Green Dr SW,Mason City,IA,50401
