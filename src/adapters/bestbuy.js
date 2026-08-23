@@ -1944,22 +1944,86 @@ async function extractProductsFromPage(
    * fill the requested result count. The previous 3x expansion
    * could create dozens of unnecessary navigations on Best Buy.
    */
-  const fallbackNeeded =
-    Math.max(0, maxItems - products.length);
+  // Keep walking discovered links until maxItems is filled or inventory is exhausted.
+  // Failed product-page extractions must not consume the whole fallback budget.
+  const linksToVisit = productLinks.filter((link) => {
+    const key =
+      link.sku ||
+      extractSkuFromUrl(link.url) ||
+      link.url;
+    return !seen.has(key);
+  });
 
-  let linksToVisit =
-    productLinks.slice(
+  /*
+   * Bounded product-page fallback.
+   *
+   * Do NOT walk every discovered Best Buy link. A clearance page can expose
+   * dozens of links while only a handful contain usable product data. The
+   * old unbounded loop could therefore spend many minutes navigating pages
+   * that were never going to contribute a product.
+   *
+   * We try a small rolling budget beyond the number of products still needed.
+   * Each page also has strict navigation/locator timeouts. This keeps the
+   * scan responsive while still giving the scraper a chance to fill
+   * --max-items-per-store.
+   */
+  const remainingNeeded =
+    Math.max(
       0,
-      fallbackNeeded
+      maxItems - products.length
     );
 
-  for (const link of linksToVisit) {
+  /*
+   * Adaptive fallback budget.
+   *
+   * `maxItems` means "usable products", not "product pages visited".
+   * A clearance page can expose many links whose product cards do not
+   * contain enough data for a usable result, so the fallback must be
+   * allowed to continue past the first small batch when extraction is
+   * sparse.
+   *
+   * Keep a hard cap so a broken/blocked Best Buy page cannot turn a scan
+   * into an unbounded crawl.
+   */
+  const FALLBACK_MIN_ATTEMPTS = 12;
+  const FALLBACK_HARD_CAP = 24;
+
+  const fallbackBudget = Math.min(
+    linksToVisit.length,
+    Math.max(
+      FALLBACK_MIN_ATTEMPTS,
+      remainingNeeded * 3
+    ),
+    FALLBACK_HARD_CAP
+  );
+
+  const linksToTry =
+    linksToVisit.slice(
+      0,
+      fallbackBudget
+    );
+
+  console.log(
+    `  [bestbuy] fallback target: ${maxItems} usable products; ` +
+      `currently have ${products.length}; ` +
+      `will inspect up to ${linksToTry.length} product pages`
+  );
+
+  let attemptedFallbackPages = 0;
+  let recoveredFallbackProducts = 0;
+
+  for (const link of linksToTry) {
     if (
       products.length >=
       maxItems
     ) {
       break;
     }
+
+    attemptedFallbackPages += 1;
+    console.log(
+      `  [bestbuy] product-page fallback ${attemptedFallbackPages}/${linksToTry.length}: ${link.url}`
+    );
 
     const key =
       link.sku ||
@@ -1972,22 +2036,33 @@ async function extractProductsFromPage(
       continue;
     }
 
+    let productPage = null;
+
     try {
-      const productPage =
+      productPage =
         await page
           .context()
           .newPage();
 
-      await productPage
-        .goto(link.url, {
+      /*
+       * Extraction uses locators as well as navigation, so cap both
+       * navigation and locator waits. A blocked/slow Best Buy page must not
+       * stall the entire challenge scan.
+       */
+      productPage.setDefaultTimeout(4000);
+      productPage.setDefaultNavigationTimeout(6000);
+
+      await productPage.goto(
+        link.url,
+        {
           waitUntil:
             "domcontentloaded",
-          timeout: 12000,
-        })
-        .catch(() => {});
+          timeout: 6000,
+        }
+      ).catch(() => {});
 
       await productPage
-        .waitForTimeout(450)
+        .waitForTimeout(250)
         .catch(() => {});
 
       const product =
@@ -1995,10 +2070,6 @@ async function extractProductsFromPage(
           productPage,
           link
         );
-
-      await productPage
-        .close()
-        .catch(() => {});
 
       if (
         product &&
@@ -2029,21 +2100,40 @@ async function extractProductsFromPage(
           products.push(
             normalized
           );
+          recoveredFallbackProducts += 1;
+
+          console.log(
+            `  [bestbuy] fallback recovered product ${recoveredFallbackProducts}: ` +
+              `${normalized.title} | $${Number(normalized.price).toFixed(2)}`
+          );
         }
       }
     } catch (error) {
       console.log(
         `  [bestbuy] product-page fallback failed for ${link.url}: ${error.message}`
       );
+    } finally {
+      if (productPage) {
+        await productPage
+          .close()
+          .catch(() => {});
+      }
     }
   }
 
-  return uniqueProducts(
-    products
-  ).slice(
-    0,
-    maxItems
+  const finalProducts =
+    uniqueProducts(products).slice(
+      0,
+      maxItems
+    );
+
+  console.log(
+    `  [bestbuy] fallback summary: visited ${attemptedFallbackPages} product pages; ` +
+      `recovered ${recoveredFallbackProducts}; ` +
+      `final usable products ${finalProducts.length}/${maxItems}`
   );
+
+  return finalProducts;
 }
 
 /* =========================================================

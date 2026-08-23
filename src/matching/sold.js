@@ -166,6 +166,42 @@ function matchProductToSoldComp(product, comp) {
   }
 
   // --------------------------------------------------
+  // Bundle / accessory mismatch
+  // --------------------------------------------------
+  // Prevent a standalone charger from matching a charger+stand,
+  // case, mount, bundle, kit, or similar materially different offer.
+  const accessoryPatterns = [
+    /\bwith\s+(?:stand|case|mount|cover|dock)\b/i,
+    /\b(?:stand|case|mount|cover|dock)\s+included\b/i,
+    /\b(?:bundle|combo|kit)\b/i,
+    /\bcharger\s*\+\s*stand\b/i,
+  ];
+
+  const productAccessoryFlags = accessoryPatterns.map((re) => re.test(product.title || ""));
+  const compAccessoryFlags = accessoryPatterns.map((re) => re.test(comp.title || ""));
+
+  if (productAccessoryFlags.some(Boolean) !== compAccessoryFlags.some(Boolean)) {
+    return {
+      matches: false,
+      reason: "accessory_bundle_mismatch",
+      score: 0,
+    };
+  }
+
+  // Specific accessory terms must also agree when they appear in only one title.
+  for (const term of ["stand", "case", "mount", "dock", "cover"]) {
+    const productHas = new RegExp(`\\b${term}\\b`, "i").test(product.title || "");
+    const compHas = new RegExp(`\\b${term}\\b`, "i").test(comp.title || "");
+    if (productHas !== compHas) {
+      return {
+        matches: false,
+        reason: "accessory_bundle_mismatch",
+        score: 0,
+      };
+    }
+  }
+
+  // --------------------------------------------------
   // Model matching
   // --------------------------------------------------
 

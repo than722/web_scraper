@@ -97,17 +97,43 @@ function printCandidates(candidates, promisingLeads, nearMisses, topN, minProfit
       `   COMP: ${c.compStore} — $${c.compPrice.toFixed(2)} — ${c.comparisonType}`
     );
     console.log(
-      `   Gross spread: ${Number(c.estimatedProfitPct ?? 0).toFixed(1)}% | Net ROI: ${
-        Number(c.estimatedNetProfitPct ?? 0).toFixed(1)
-      }% | Net profit: $${Number(c.estimatedProfit ?? c.netProfit ?? 0).toFixed(2)}`
+      `   Model/SKU: ${c.model || "UNVERIFIED"} / ${c.buySku || "UNVERIFIED"}`
     );
+    console.log(
+      `   Retailer: ${c.retailer || c.buyStore || "UNVERIFIED"} | Buy price: $${Number(c.buyPrice ?? 0).toFixed(2)}`
+    );
+    console.log(
+      `   Sold comp price(s): ${
+        (c.soldCompPrices || [c.compPrice]).map((p) => `$${Number(p).toFixed(2)}`).join(", ")
+      }`
+    );
+    console.log(
+      `   Resale price used (highest valid recent sold): $${Number(c.compPrice ?? 0).toFixed(2)} | Gross profit: $${Number(c.grossProfit ?? ((c.compPrice ?? 0) - (c.buyPrice ?? 0))).toFixed(2)} | Gross ROI: ${Number(c.grossProfitPct ?? c.estimatedProfitPct ?? 0).toFixed(1)}%`
+    );
+    if (c.typicalSoldPrice !== undefined) {
+      console.log(
+        `   Typical sold price (median): $${Number(c.typicalSoldPrice).toFixed(2)} | Typical gross ROI: ${Number(c.typicalGrossProfitPct ?? 0).toFixed(1)}%`
+      );
+    }
+
+    if (c.recentSales30d !== undefined) {
+      console.log(
+        `   Sales rate: ${c.recentSales30d} in 30d | ${c.recentSales14d ?? 0} in 14d | ${c.recentSales7d ?? 0} in 7d | ${Number(c.salesVelocityPerWeek ?? 0).toFixed(2)}/week`
+      );
+      console.log(
+        `   Valid comps: ${c.soldCompCount ?? 0} | Recent valid comps: ${c.recentValidSoldComps ?? 0} | 2+ recent: ${c.preferredRecentComps ? "YES" : "NO"}`
+      );
+    }
     console.log(
       `   Identity: ${Number(c.identityScore ?? 0).toFixed(0)}/100 | Confidence: ${
         (Number(c.confidence ?? 0) * 100).toFixed(0)
       }/100 | Sellability: ${(Number(c.sellabilityScore ?? 0) * 100).toFixed(0)}/100`
     );
     console.log(
-      `   Local inventory: MANUAL VERIFY | Exact SKU/model/condition verification required`
+      `   Local inventory: ${c.localInventoryStatus || "UNVERIFIED — manual verification required"}`
+    );
+    console.log(
+      `   Verification: ${c.verificationStatus || "UNVERIFIED"}`
     );
 
     if (c.suspiciousSpread) {
@@ -115,9 +141,21 @@ function printCandidates(candidates, promisingLeads, nearMisses, topN, minProfit
         `   WARNING: unusually large price spread; verify exact SKU/model/packaging.`
       );
     }
+    if (c.highPriceWarning) {
+      console.log(
+        `   WARNING: selected high sold price is at least 50% above the typical median; treat the 70%+ ROI as a HIGH-CASE result and verify the exact sold listing.`
+      );
+    }
 
-    console.log(`   Buy:  ${c.buyUrl}`);
-    console.log(`   Comp: ${c.compUrl}`);
+    console.log(`   Retail link: ${c.buyUrl || "UNVERIFIED"}`);
+    if (Array.isArray(c.soldComps) && c.soldComps.length) {
+      console.log("   Sold comp links:");
+      for (const comp of c.soldComps) {
+        console.log(`      - $${Number(comp.price).toFixed(2)} | ${comp.date ? new Date(comp.date).toISOString().slice(0, 10) : "date unverified"} | ${comp.condition || "condition unverified"} | ${comp.url || "URL UNVERIFIED"}`);
+      }
+    } else {
+      console.log(`   Sold comp link: ${c.compUrl || "UNVERIFIED"}`);
+    }
   }
 }
 
@@ -189,7 +227,8 @@ async function run() {
     .flatMap(r => r.candidates || [])
     .sort(
       (a, b) =>
-        ((b.estimatedNetProfitPct ?? b.estimatedProfitPct) - (a.estimatedNetProfitPct ?? a.estimatedProfitPct)) ||
+        ((b.grossProfitPct ?? b.estimatedProfitPct) - (a.grossProfitPct ?? a.estimatedProfitPct)) ||
+        ((b.recentSales30d ?? 0) - (a.recentSales30d ?? 0)) ||
         (b.confidence - a.confidence)
     );
 
@@ -197,7 +236,8 @@ async function run() {
     .flatMap(r => r.promisingLeads || [])
     .sort(
       (a, b) =>
-        ((b.estimatedNetProfitPct ?? b.estimatedProfitPct) - (a.estimatedNetProfitPct ?? a.estimatedProfitPct)) ||
+        ((b.grossProfitPct ?? b.estimatedProfitPct) - (a.grossProfitPct ?? a.estimatedProfitPct)) ||
+        ((b.recentSales30d ?? 0) - (a.recentSales30d ?? 0)) ||
         (b.identityScore - a.identityScore) ||
         (b.confidence - a.confidence)
     )
@@ -240,6 +280,8 @@ async function run() {
 
     clearanceMode: Boolean(args.clearance),
     dealsMode: Boolean(args.deals),
+    challengeMode: Boolean(args.challenge || args.clearance || args.deals),
+    minSales30d: args.minSales30d,
 
     radiusMiles: DEFAULT_RADIUS_MILES,
 
@@ -299,14 +341,18 @@ async function run() {
     candidates,
 
     grossProfitDefinition:
-      "(comparison price - buy price) / buy price * 100.",
+      "gross profit = resale price - purchase price; gross ROI = gross profit / purchase price * 100.",
     netProfitDefinition:
       "((comparison price - buy price) - marketplace fee - shipping) / buy price * 100.",
     candidateThresholdDefinition:
-      "min-profit-pct is applied to estimated net ROI after the configured selling fee and shipping.",
+      "min-profit-pct is applied to GROSS ROI using the highest valid recent sold price when at least two recent comps exist; the typical median sold price is reported separately so high-price evidence is visible rather than hidden.",
+    salesRateDefinition:
+      `Sales rate is the count of valid matching sold listings in the last 30 days. Challenge mode requires at least ${args.minSales30d} recent sales. Two or more recent valid sold comps are preferred when available.`,
 
     sourcePolicy:
       "robots.txt is checked before requests; 403/CAPTCHA/unknown robots are fail-closed.",
+
+    hasSoldComps: queryReports.some(r => r.hasSoldComps === true),
 
     netProfitAssumptions: {
       sellFeePct: args.sellFeePct,
@@ -376,8 +422,14 @@ async function run() {
   );
 
   console.log(
-    `${args.minProfitPct}%+ candidates: ${candidates.length}`
+    `${args.minProfitPct}%+ gross ROI candidates: ${candidates.length}`
   );
+
+  if (args.clearance || args.challenge || args.deals) {
+    console.log(
+      `Sales-rate gate: ${args.minSales30d}+ valid sold comps in the last 30 days`
+    );
+  }
 
   console.log(
     `Store failures: ${report.storesFailed}`

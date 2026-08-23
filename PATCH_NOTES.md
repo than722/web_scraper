@@ -43,3 +43,7 @@ The build passes `node --check` for both the main scanner and the Best Buy
 adapter. The runtime test in this environment could not launch Chromium because
 this environment does not have Playwright's browser binary installed; that is
 an environment limitation, not a JavaScript syntax error.
+
+
+## Patch v11
+See `PATCH_NOTES_V11.md`: adaptive Best Buy fallback fills the requested number of usable products with a hard 24-page fallback cap.

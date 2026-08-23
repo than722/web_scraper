@@ -25,19 +25,21 @@ const CITY_CENTROIDS = {
 const SOURCE_TO_STORE_NAMES = { bestbuy: ["Best Buy"] };
 
 function parseArgs(argv) {
-  const args = { query: "", bestBuyUrl: "", maxItemsPerStore: 25, minProfitPct: 50, topN: 5, jsonOut: "", headed: false, refresh: false, clearance: false, deals: false, sellFeePct: 15, shippingCost: 0 };
+  const args = { query: "", bestBuyUrl: "", maxItemsPerStore: 25, minProfitPct: 50, minSales30d: 3, topN: 5, jsonOut: "", headed: false, refresh: false, clearance: false, deals: false, challenge: false, sellFeePct: 15, shippingCost: 0 };
   for (let i = 2; i < argv.length; i += 1) {
     const v = argv[i]; const next = argv[i + 1];
     if (v === "--query" && next) args.query = next, i++;
     else if (v === "--best-buy-url" && next) args.bestBuyUrl = next, i++;
     else if (v === "--max-items-per-store" && next) args.maxItemsPerStore = Number(next), i++;
     else if (v === "--min-profit-pct" && next) args.minProfitPct = Number(next), i++;
+    else if (v === "--min-sales-30d" && next) args.minSales30d = Number(next), i++;
     else if (v === "--top-n" && next) args.topN = Number(next), i++;
     else if (v === "--json-out" && next) args.jsonOut = next, i++;
     else if (v === "--headed") args.headed = true;
     else if (v === "--refresh") args.refresh = true;
     else if (v === "--clearance") args.clearance = true;
     else if (v === "--deals") args.deals = true;
+    else if (v === "--challenge") args.challenge = true;
     else if (v === "--sell-fee-pct" && next) args.sellFeePct = Number(next), i++;
     else if (v === "--shipping-cost" && next) args.shippingCost = Number(next), i++;
   }

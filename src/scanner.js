@@ -202,17 +202,18 @@ if (
     new Set();
 
   /*
-   * Sold-comps is the slowest external step. Three strong
-   * products are enough to establish resale-market evidence
-   * without turning a normal scan into a long API crawl.
+   * Normal scans keep a small SoldComps shortlist. Challenge/clearance/
+   * deals scans need coverage across the scraped inventory, otherwise a
+   * good item can be discarded before its sold market is checked.
    */
-  const compProducts =
-    selectProductsForSoldComps(
-      products,
-      (args.clearance === true || args.deals === true)
-        ? 3
-        : 3
-    );
+  const challengeMode =
+    args.challenge === true ||
+    args.clearance === true ||
+    args.deals === true;
+
+  const compProducts = challengeMode
+    ? selectProductsForSoldComps(products, products.length)
+    : selectProductsForSoldComps(products, 3);
 
   console.log(
     `[ebay-sold] selected ${compProducts.length} products for sold-comps analysis`
@@ -233,78 +234,51 @@ if (
     );
   }
 
-  for (
-    const product of compProducts
-  ) {
-    const productQuery = [
-      product.title,
-      product.model,
-    ]
-      .filter(Boolean)
-      .join(" ");
+  const soldCompBatches = await Promise.all(
+    compProducts.map(async (product) => {
+      const productQuery = [
+        product.title,
+        product.model,
+      ]
+        .filter(Boolean)
+        .join(" ");
 
-    if (!productQuery.trim()) {
-      continue;
-    }
-
-    console.log(
-      `[ebay-sold] searching comps for: ${productQuery}`
-    );
-
-    try {
-      const comps =
-        await scrapeEbaySoldComps(
-          productQuery,
-          20
-        );
-
-      for (
-        const comp of comps
-      ) {
-        const key =
-          comp.url ||
-          [
-            comp.title,
-            comp.price,
-            comp.soldDate,
-          ].join("|");
-
-        if (
-          soldCompSeen.has(key)
-        ) {
-          continue;
-        }
-
-        soldCompSeen.add(key);
-
-        soldComps.push({
-          ...comp,
-
-          matchedSearchQuery:
-            productQuery,
-
-          matchedSourceProduct:
-            product.title,
-
-          matchedSourceSku:
-            product.sku || null,
-
-          matchedSourceModel:
-            product.model || null,
-        });
+      if (!productQuery.trim()) {
+        return { product, productQuery, comps: [] };
       }
 
-      /*
-       * The adapter already enforces a per-run request cap and
-       * timeout, so an additional 750ms delay only adds latency.
-       */
-
-    } catch (error) {
-      console.warn(
-        `[ebay-sold] failed for "${productQuery}": ${
-          error.message || error
-        }`
+      console.log(
+        `[ebay-sold] searching comps for: ${productQuery}`
       );
+
+      try {
+        const comps = await scrapeEbaySoldComps(productQuery, 20);
+        return { product, productQuery, comps };
+      } catch (error) {
+        console.warn(
+          `[ebay-sold] failed for "${productQuery}": ${error.message || error}`
+        );
+        return { product, productQuery, comps: [] };
+      }
+    })
+  );
+
+  for (const batch of soldCompBatches) {
+    for (const comp of batch.comps) {
+      const key =
+        comp.url ||
+        [comp.title, comp.totalPrice ?? comp.soldPrice ?? comp.price, comp.endedAt ?? comp.soldDate].join("|");
+
+      if (soldCompSeen.has(key)) continue;
+      soldCompSeen.add(key);
+
+      soldComps.push({
+        ...comp,
+        matchedSearchQuery: batch.productQuery,
+        matchedSourceProduct: batch.product.title,
+        matchedSourceSku: batch.product.sku || null,
+        matchedSourceModel: batch.product.model || null,
+      });
     }
   }
 
@@ -330,6 +304,8 @@ if (
           args.shippingCost,
 
         soldComps,
+        challengeMode,
+        minSales30d: args.minSales30d,
       }
     );
 
@@ -348,6 +324,9 @@ if (
 
     clearance:
       args.clearance === true,
+
+    challengeMode,
+    minSales30d: args.minSales30d,
 
     productsScraped:
       products.length,
