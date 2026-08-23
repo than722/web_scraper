@@ -494,73 +494,54 @@ async function ensureUSPage(page, url, label) {
  * ========================================================= */
 
 async function loadInventory(page, isClearance) {
+  /*
+   * Best Buy's product grid is React/Next based, but the old
+   * implementation spent ~15-20 seconds scrolling the entire
+   * page before extraction. That made every scan unnecessarily
+   * slow and increased the chance of the page/browser becoming
+   * unstable.
+   *
+   * We only need enough hydration for the first product cards.
+   * If the grid is still empty, the caller already has a
+   * controlled retry path.
+   */
   await page
     .waitForLoadState("domcontentloaded")
     .catch(() => {});
 
-  await sleep(2000);
+  await sleep(isClearance ? 1800 : 1400);
 
-  /*
-   * Give React/Next/Best Buy time to populate.
-   */
   await page
-    .waitForTimeout(2500)
+    .waitForTimeout(isClearance ? 1200 : 900)
     .catch(() => {});
 
   /*
-   * Scroll down progressively.
+   * A small amount of scrolling triggers lazy-loaded product
+   * cards without walking the entire inventory page.
    */
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 3; i += 1) {
     try {
       await page.evaluate(() => {
         window.scrollBy({
           top: Math.max(
-            600,
-            Math.floor(
-              window.innerHeight * 0.9
-            )
+            700,
+            Math.floor(window.innerHeight * 0.95)
           ),
           behavior: "instant",
         });
       });
     } catch {}
 
-    await sleep(700);
+    await sleep(300);
   }
 
-  /*
-   * Scroll all the way down once.
-   */
-  try {
-    await page.evaluate(() => {
-      window.scrollTo(
-        0,
-        document.body.scrollHeight
-      );
-    });
-  } catch {}
-
-  await sleep(1500);
-
-  /*
-   * Return to top.
-   */
   try {
     await page.evaluate(() => {
       window.scrollTo(0, 0);
     });
   } catch {}
 
-  await sleep(1000);
-
-  /*
-   * Extra React hydration time.
-   */
-  await page
-    .waitForTimeout(
-      isClearance ? 2500 : 2000
-    )
-    .catch(() => {});
+  await sleep(400);
 }
 
 /* =========================================================
@@ -1375,8 +1356,11 @@ function uniqueProducts(products) {
  * CREATE BROWSER
  * ========================================================= */
 
-async function createPage() {
+async function createPage(existingBrowser = null) {
+  const ownsBrowser = !existingBrowser;
+
   const browser =
+    existingBrowser ||
     await chromium.launch({
       headless: true,
     });
@@ -1440,6 +1424,7 @@ async function createPage() {
     browser,
     context,
     page,
+    ownsBrowser,
   };
 }
 
@@ -1571,6 +1556,14 @@ async function scrapeBestBuy(
     );
 
   /*
+   * The scanner owns a long-lived Playwright browser. Reuse it
+   * when supplied instead of launching a second browser that can
+   * race with the scanner's lifecycle.
+   */
+  const existingBrowser =
+    options.browser || null;
+
+  /*
    * Build URL.
    */
   let url;
@@ -1595,13 +1588,15 @@ async function scrapeBestBuy(
   let browser;
   let context;
   let page;
+  let ownsBrowser = false;
 
   try {
     ({
       browser,
       context,
       page,
-    } = await createPage());
+      ownsBrowser,
+    } = await createPage(existingBrowser));
 
     console.log(
       `  [bestbuy] opening ${label}: ${url}`
@@ -1874,7 +1869,7 @@ async function scrapeBestBuy(
         .catch(() => {});
     }
 
-    if (browser) {
+    if (browser && ownsBrowser) {
       await browser
         .close()
         .catch(() => {});
@@ -1944,13 +1939,18 @@ async function extractProductsFromPage(
   /*
    * Product page fallback.
    */
+  /*
+   * Only visit as many product pages as are actually needed to
+   * fill the requested result count. The previous 3x expansion
+   * could create dozens of unnecessary navigations on Best Buy.
+   */
+  const fallbackNeeded =
+    Math.max(0, maxItems - products.length);
+
   let linksToVisit =
     productLinks.slice(
       0,
-      Math.max(
-        maxItems * 3,
-        maxItems
-      )
+      fallbackNeeded
     );
 
   for (const link of linksToVisit) {
@@ -1982,12 +1982,12 @@ async function extractProductsFromPage(
         .goto(link.url, {
           waitUntil:
             "domcontentloaded",
-          timeout: 30000,
+          timeout: 12000,
         })
         .catch(() => {});
 
       await productPage
-        .waitForTimeout(1200)
+        .waitForTimeout(450)
         .catch(() => {});
 
       const product =

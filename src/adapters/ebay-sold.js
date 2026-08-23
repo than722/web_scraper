@@ -34,7 +34,7 @@ let soldCompsRequestsThisRun = 0;
  *
  * This intentionally leaves a buffer below your daily allowance.
  */
-const SOLD_COMPS_MAX_REQUESTS_TODAY = 45;
+const SOLD_COMPS_MAX_REQUESTS_TODAY = 5;
 
 
 /*
@@ -45,7 +45,7 @@ const SOLD_COMPS_MAX_REQUESTS_TODAY = 45;
 
 async function scrapeEbaySoldComps(
   query,
-  maxItems = 20
+  maxItems = 10
 ) {
   /*
    * ----------------------------------------------------------
@@ -171,16 +171,38 @@ async function scrapeEbaySoldComps(
     );
 
 
-    const response =
-      await fetch(url, {
-        headers: {
-          Authorization:
-            `Bearer ${apiKey}`,
+    /*
+     * Sold-comps is an external network call. Never let one
+     * product search hold the whole scan indefinitely.
+     */
+    const controller =
+      new AbortController();
 
-          Accept:
-            "application/json",
-        },
-      });
+    const timeout =
+      setTimeout(
+        () => controller.abort(),
+        12000
+      );
+
+    let response;
+
+    try {
+      response =
+        await fetch(url, {
+          headers: {
+            Authorization:
+              `Bearer ${apiKey}`,
+
+            Accept:
+              "application/json",
+          },
+
+          signal:
+            controller.signal,
+        });
+    } finally {
+      clearTimeout(timeout);
+    }
 
 
     console.log(

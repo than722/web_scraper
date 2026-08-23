@@ -109,13 +109,16 @@ if (
             budget.maxItemsPerStore
           );
         } else {
-          results = await scraper(
+          results = await scraper({
             browser,
-            effectiveQuery,
-            budget.maxItemsPerStore,
-            args.clearance === true,
-            args.deals === true
-          );
+            query: effectiveQuery,
+            maxItemsPerStore:
+              budget.maxItemsPerStore,
+            clearance:
+              args.clearance === true,
+            deals:
+              args.deals === true,
+          });
         }
       }else {
         /*
@@ -198,12 +201,17 @@ if (
   const soldCompSeen =
     new Set();
 
+  /*
+   * Sold-comps is the slowest external step. Three strong
+   * products are enough to establish resale-market evidence
+   * without turning a normal scan into a long API crawl.
+   */
   const compProducts =
     selectProductsForSoldComps(
       products,
       (args.clearance === true || args.deals === true)
-        ? 15
-        : 10
+        ? 3
+        : 3
     );
 
   console.log(
@@ -287,12 +295,10 @@ if (
       }
 
       /*
-       * Prevent hammering the API.
+       * The adapter already enforces a per-run request cap and
+       * timeout, so an additional 750ms delay only adds latency.
        */
-      await new Promise(
-        (resolve) =>
-          setTimeout(resolve, 750)
-      );
+
     } catch (error) {
       console.warn(
         `[ebay-sold] failed for "${productQuery}": ${
@@ -361,6 +367,9 @@ if (
 
     promisingLeadCount:
       (built.leads || []).length,
+
+    hasSoldComps:
+      soldComps.length > 0,
 
     promisingLeads:
       built.leads || [],
