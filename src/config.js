@@ -55,7 +55,77 @@ function tokenSetSimilarity(a,b) { const A=new Set(normalize(a).split(" ").filte
 function detectBrand(title) { const brands=["apple","samsung","sony","lenovo","hp","dell","asus","acer","lg","google","microsoft","nintendo","playstation","xbox","dewalt","milwaukee","makita","bosch","ryobi","worx","greenworks","anker","jbl","bose","insignia","tp-link","vevor"]; const n=normalize(title); return brands.find(b=>n.includes(b))||null; }
 function haversineMiles(lat1,lon1,lat2,lon2){const R=3958.7613;const dLat=(lat2-lat1)*Math.PI/180;const dLon=(lon2-lon1)*Math.PI/180;const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 function parseCsv(filePath){const text=fs.readFileSync(filePath,"utf8").replace(/^\uFEFF/,"");const rows=[];let row=[],cell="",quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++;}else quoted=!quoted;}else if(c===','&&!quoted){row.push(cell.trim());cell="";}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell.trim());if(row.some(Boolean))rows.push(row);row=[];cell="";}else cell+=c;}if(cell||row.length){row.push(cell.trim());rows.push(row);}const headers=rows.shift()||[];return rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]||""])));}
-function storesWithinRadius(rows,radiusMiles){return rows.map(s=>{const lat=Number(s.lat),lon=Number(s.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon))return null;const d=haversineMiles(CEDAR_FALLS.lat,CEDAR_FALLS.lon,lat,lon);return {...s,distanceFromCedarFallsMiles:Number(d.toFixed(2)),withinCedarFallsRadius:d<=radiusMiles};}).filter(Boolean).filter(s=>s.withinCedarFallsRadius);}
+function storesWithinRadius(rows, radiusMiles) {
+  return rows
+    .map((store) => {
+      let lat = Number(store.lat);
+      let lon = Number(store.lon);
+
+      /*
+       * Some store records do not contain coordinates.
+       * Fall back to the known city centroid.
+       */
+      if (
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lon)
+      ) {
+        const city = String(store.city || "")
+          .trim()
+          .toLowerCase();
+
+        const state = String(store.state || "")
+          .trim()
+          .toLowerCase();
+
+        const cityKey = `${city},${state}`;
+
+        const centroid =
+          CITY_CENTROIDS[cityKey];
+
+        if (centroid) {
+          lat = centroid.lat;
+          lon = centroid.lon;
+        }
+      }
+
+      /*
+       * If we still cannot determine coordinates,
+       * do not include the store.
+       */
+      if (
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lon)
+      ) {
+        return null;
+      }
+
+      const distance =
+        haversineMiles(
+          CEDAR_FALLS.lat,
+          CEDAR_FALLS.lon,
+          lat,
+          lon
+        );
+
+      return {
+        ...store,
+
+        lat,
+        lon,
+
+        distanceFromCedarFallsMiles:
+          Number(distance.toFixed(2)),
+
+        withinCedarFallsRadius:
+          distance <= radiusMiles,
+      };
+    })
+    .filter(Boolean)
+    .filter(
+      (store) =>
+        store.withinCedarFallsRadius
+    );
+}
 async function robotsAllowed(url,label=""){try{const base=new URL(url);const robotsUrl=`${base.protocol}//${base.host}/robots.txt`;const res=await fetch(robotsUrl,{headers:{"User-Agent":"Mozilla/5.0"}});if(!res.ok)return true;const txt=await res.text();let applies=false,allowed=true;for(const raw of txt.split(/\r?\n/)){const line=raw.split("#")[0].trim();if(!line)continue;const [k,v]=line.split(":",2).map(x=>x.trim());if(k.toLowerCase()==="user-agent")applies=v==="*"||v.toLowerCase().includes("mozilla");else if(applies&&k.toLowerCase()==="disallow"&&v&&new URL(url).pathname.startsWith(v))allowed=false;else if(applies&&k.toLowerCase()==="allow"&&v&&new URL(url).pathname.startsWith(v))allowed=true;}return allowed;}catch{return true;}}
 async function debugSnapshot(label,query,page){if(process.env.FLIP_FINDER_DEBUG!=="1")return;const dir=path.join(process.cwd(),"output","debug");fs.mkdirSync(dir,{recursive:true});const safe=normalize(`${label}-${query}`).replace(/\s+/g,"-").slice(0,80)||"page";try{await page.screenshot({path:path.join(dir,`${safe}.png`),fullPage:true});fs.writeFileSync(path.join(dir,`${safe}.html`),await page.content(),"utf8");}catch{} }
 function cleanPrice(value){const n=Number(String(value??"").replace(/[$,]/g,""));return Number.isFinite(n)?n:null;}

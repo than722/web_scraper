@@ -1,7 +1,23 @@
 require("dotenv").config();
+
+const fs = require("node:fs");
 const path = require("node:path");
+
 const { chromium } = require("playwright");
-const { parseArgs, resolveBudgetProfile, getCachePath, readCache, writeCache, parseCsv, storesWithinRadius, CEDAR_FALLS, DEFAULT_RADIUS_MILES } = require("./config");
+
+const {
+  parseArgs,
+  resolveBudgetProfile,
+  getCachePath,
+  readCache,
+  writeCache,
+  parseCsv,
+  storesWithinRadius,
+  CEDAR_FALLS,
+  DEFAULT_RADIUS_MILES,
+  SOURCE_TO_STORE_NAMES,
+} = require("./config");
+
 const { scanQuery } = require("./scanner");
 
 console.log("SoldComps API key loaded:", Boolean(process.env.SOLDCOMPS_API_KEY));
@@ -120,12 +136,12 @@ async function run() {
   // ------------------------------------------------------------
 
   const queries = args.bestBuyUrl
-    ? ["__BESTBUY_SPECIFIC__"]
-    : args.clearance
-    ? ["__BESTBUY_CLEARANCE__"]
-    : args.deals
-    ? ["__BESTBUY_DEALS__"]
-    : [args.query];
+  ? ["__BESTBUY_SPECIFIC__"]
+  : args.clearance
+  ? ["__BESTBUY_CLEARANCE__"]
+  : args.deals
+  ? ["__BESTBUY_DEALS__"]
+  : [args.query];
 
   const browser = await chromium.launch({ headless: !args.headed });
   const started = Date.now();
