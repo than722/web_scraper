@@ -1,5 +1,6 @@
 const { normalize } = require("../config");
-const { compareProducts } = require("./engine");
+const { compareProducts, identityScore } = require("./engine");
+const { classifySellability, netProfitEstimate, toConfidence, productCategory, productText } = require("./text");
 const { matchProductToSoldComp } = require("./sold");
 
 function buildCandidates(products, minProfitPct, options = {}) {
@@ -197,25 +198,73 @@ function buildCandidates(products, minProfitPct, options = {}) {
         shippingCost -
         buyPrice;
 
-      const estimatedProfitPct =
+      // Keep gross ROI and net ROI separate. The old implementation
+      // stored net ROI in estimatedProfitPct, which caused the console
+      // to label a net number as "Gross spread".
+      const grossProfitPct =
+        buyPrice > 0
+          ? ((soldPrice - buyPrice) / buyPrice) * 100
+          : 0;
+
+      const estimatedNetProfitPct =
         buyPrice > 0
           ? (estimatedProfit / buyPrice) * 100
           : 0;
 
-      /*
-       * Confidence is based on how well the retailer item
-       * matches the sold listing.
-       */
+      const net =
+        netProfitEstimate(
+          buyPrice,
+          soldPrice,
+          sellFeePct,
+          shippingCost
+        );
+
+      const sellability =
+        classifySellability(
+          productText(product),
+          buyPrice
+        );
+
+      const buyCategory =
+        productCategory(productText(product));
+
+      const compCategory =
+        productCategory(productText(comp));
+
+      const categoryMatch =
+        Boolean(
+          buyCategory &&
+          compCategory &&
+          buyCategory === compCategory
+        );
+
       const confidence =
-        typeof match.confidence === "number"
-          ? match.confidence
-          : 0;
+        toConfidence(
+          Number(match.similarity || 0),
+          product.rating,
+          product.reviewCount,
+          Boolean(match.modelMatch)
+        );
+
+      const identity =
+        identityScore(
+          product,
+          {
+            ...comp,
+            source: "ebay_sold",
+            listingType: "sold",
+          },
+          Number(match.similarity || 0),
+          Number(match.overlapRatio || 0),
+          Boolean(match.modelMatch),
+          categoryMatch
+        );
 
       /*
        * If the sold price doesn't produce the requested
        * profit threshold, keep it as a near miss.
        */
-      if (estimatedProfitPct < minProfitPct) {
+      if (estimatedNetProfitPct < minProfitPct) {
         diagnostics.soldCompBelowThreshold++;
 
         const nearKey =
@@ -229,7 +278,7 @@ function buildCandidates(products, minProfitPct, options = {}) {
           nearMisses.push({
             title: product.title,
 
-            buyStore: product.storeName,
+            buyStore: product.storeName || "Best Buy",
             buyPrice,
             buyUrl: product.url,
             buyLocalStore: product.localStore,
@@ -249,7 +298,9 @@ function buildCandidates(products, minProfitPct, options = {}) {
             estimatedProfit:
               Number(estimatedProfit.toFixed(2)),
             grossProfitPct:
-              Number(estimatedProfitPct.toFixed(2)),
+              Number(grossProfitPct.toFixed(2)),
+            estimatedNetProfitPct:
+              Number(estimatedNetProfitPct.toFixed(2)),
 
             similarity:
               Number((match.similarity || 0).toFixed(3)),
@@ -282,7 +333,7 @@ function buildCandidates(products, minProfitPct, options = {}) {
       const row = {
         title: product.title,
 
-        buyStore: product.storeName,
+        buyStore: product.storeName || "Best Buy",
         buyPrice,
         buyUrl: product.url,
         buySku: product.sku || null,
@@ -313,7 +364,16 @@ function buildCandidates(products, minProfitPct, options = {}) {
           Number(estimatedProfit.toFixed(2)),
 
         estimatedProfitPct:
-          Number(estimatedProfitPct.toFixed(2)),
+          Number(grossProfitPct.toFixed(2)),
+
+        estimatedNetProfitPct:
+          Number(estimatedNetProfitPct.toFixed(2)),
+
+        grossProfitPct:
+          Number(grossProfitPct.toFixed(2)),
+
+        netProfit:
+          Number(net.net.toFixed(2)),
 
         /*
          * Matching information
@@ -335,6 +395,20 @@ function buildCandidates(products, minProfitPct, options = {}) {
         confidence:
           Number(confidence.toFixed(3)),
 
+        identityScore:
+          Number(identity.score.toFixed(3)),
+
+        identitySignals:
+          identity.signals,
+
+        sellabilityScore:
+          sellability.score,
+
+        sellabilityReason:
+          sellability.reason,
+
+        categoryMatch,
+
         /*
          * eBay seller information if available
          */
@@ -346,6 +420,15 @@ function buildCandidates(products, minProfitPct, options = {}) {
 
         sellerFeedbackScore:
           comp.sellerFeedbackScore ?? null,
+
+        suspiciousSpread:
+          grossProfitPct > 300,
+
+        localAvailability:
+          "manual_verification_required",
+
+        verificationStatus:
+          "candidate_requires_local_inventory_and_listing_validation",
 
         itemLocation:
           comp.itemLocation || null,

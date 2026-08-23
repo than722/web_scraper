@@ -42,9 +42,11 @@ function printCandidates(candidates, promisingLeads, nearMisses, topN, minProfit
           `   COMP: ${n.compStore} — $${n.compPrice.toFixed(2)} — ${n.comparisonType}`
         );
         console.log(
-          `   Gross spread: ${n.estimatedProfitPct.toFixed(1)}% | Identity: ${
-            n.identityScore
-          }/100 | Confidence: ${n.confidence}`
+          `   Gross spread: ${Number(n.estimatedProfitPct ?? 0).toFixed(1)}% | Net ROI: ${
+            Number(n.estimatedNetProfitPct ?? 0).toFixed(1)
+          }% | Identity: ${Number(n.identityScore ?? 0).toFixed(0)}/100 | Confidence: ${
+            (Number(n.confidence ?? 0) * 100).toFixed(0)
+          }/100`
         );
         console.log(
           `   Signals: ${(n.identitySignals || []).join(", ") || "none"}`
@@ -95,12 +97,17 @@ function printCandidates(candidates, promisingLeads, nearMisses, topN, minProfit
       `   COMP: ${c.compStore} — $${c.compPrice.toFixed(2)} — ${c.comparisonType}`
     );
     console.log(
-      `   Gross spread: ${c.estimatedProfitPct.toFixed(1)}% | Net est.: ${
-        c.estimatedNetProfitPct
-      }% | Confidence: ${c.confidence}`
+      `   Gross spread: ${Number(c.estimatedProfitPct ?? 0).toFixed(1)}% | Net ROI: ${
+        Number(c.estimatedNetProfitPct ?? 0).toFixed(1)
+      }% | Net profit: $${Number(c.estimatedProfit ?? c.netProfit ?? 0).toFixed(2)}`
     );
     console.log(
-      `   Sellability: ${c.sellabilityScore} | Local inventory: MANUAL VERIFY`
+      `   Identity: ${Number(c.identityScore ?? 0).toFixed(0)}/100 | Confidence: ${
+        (Number(c.confidence ?? 0) * 100).toFixed(0)
+      }/100 | Sellability: ${(Number(c.sellabilityScore ?? 0) * 100).toFixed(0)}/100`
+    );
+    console.log(
+      `   Local inventory: MANUAL VERIFY | Exact SKU/model/condition verification required`
     );
 
     if (c.suspiciousSpread) {
@@ -182,7 +189,7 @@ async function run() {
     .flatMap(r => r.candidates || [])
     .sort(
       (a, b) =>
-        (b.estimatedProfitPct - a.estimatedProfitPct) ||
+        ((b.estimatedNetProfitPct ?? b.estimatedProfitPct) - (a.estimatedNetProfitPct ?? a.estimatedProfitPct)) ||
         (b.confidence - a.confidence)
     );
 
@@ -190,7 +197,7 @@ async function run() {
     .flatMap(r => r.promisingLeads || [])
     .sort(
       (a, b) =>
-        (b.estimatedProfitPct - a.estimatedProfitPct) ||
+        ((b.estimatedNetProfitPct ?? b.estimatedProfitPct) - (a.estimatedNetProfitPct ?? a.estimatedProfitPct)) ||
         (b.identityScore - a.identityScore) ||
         (b.confidence - a.confidence)
     )
@@ -292,7 +299,11 @@ async function run() {
     candidates,
 
     grossProfitDefinition:
-      "(comparison price - buy price) / buy price * 100; this is a gross price spread, not guaranteed net profit.",
+      "(comparison price - buy price) / buy price * 100.",
+    netProfitDefinition:
+      "((comparison price - buy price) - marketplace fee - shipping) / buy price * 100.",
+    candidateThresholdDefinition:
+      "min-profit-pct is applied to estimated net ROI after the configured selling fee and shipping.",
 
     sourcePolicy:
       "robots.txt is checked before requests; 403/CAPTCHA/unknown robots are fail-closed.",
