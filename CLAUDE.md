@@ -47,6 +47,23 @@ node --check src/matching/sold.js
 
 **Note:** `npm test` is not yet configured — it currently exits with an error.
 
+### All CLI flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--query <term>` | (required) | Search term for Best Buy |
+| `--best-buy-url <url>` | | Specific Best Buy product URL |
+| `--max-items-per-store <n>` | 25 | Max products to keep per scraper |
+| `--min-profit-pct <n>` | 50 | Minimum gross profit percentage |
+| `--top-n <n>` | 5 | Number of top candidates to display |
+| `--json-out <path>` | | Optional JSON report output path |
+| `--headed` | | Show browser window (non-headless) |
+| `--refresh` | | Bypass query report cache |
+| `--clearance` | | Best Buy clearance outlet mode |
+| `--deals` | | Best Buy deals mode |
+| `--sell-fee-pct <n>` | 15 | Assumed resale fee percentage (e.g. eBay final value fee) |
+| `--shipping-cost <n>` | 0 | Assumed shipping cost per sale |
+
 ## Environment
 
 The `.env` file (not committed) must contain:
@@ -55,6 +72,8 @@ The `.env` file (not committed) must contain:
 SOLDCOMPS_API_KEY=your_api_key_here
 FLIP_FINDER_DEBUG=0
 ```
+
+A template is provided in `.env.example`.
 
 The SoldComps API key is required for eBay sold-comps lookups. Without it, the scraper logs a warning and skips sold comps (retailer-to-retailer comparison may still run, but with a single adapter that path is a no-op).
 
@@ -78,7 +97,7 @@ CLI (flip-finder.js)
 2. **Scanning** (`src/scanner.js`): For each query, runs enabled retailer scrapers, attaches local-store context (maps Best Buy products to the nearest in-radius store), selects representative products for sold-comps lookup, calls the eBay SoldComps API per product (with a 750ms delay between requests and a 45-request run cap), then calls `buildCandidates()` to produce flip candidates, promising leads, and near-misses.
 
 3. **Matching** (`src/matching/`):
-   - `engine.js` — `compareProducts()` is the core pairwise matcher. It checks same-retailer exclusion, buy-side radius, brand match, model match, condition compatibility, quantity/bundle mismatches, token-set title similarity, key-term overlap, price validity, gross profit threshold, sellability, and confidence. Returns a status of `qualified`, `lead`, `near`, or `reject` with a reason.
+   - `engine.js` — `compareProducts()` is the core pairwise matcher. It checks same-retailer exclusion, buy-side radius, brand match, model match, condition compatibility, quantity/bundle mismatches, token-set title similarity, key-term overlap, price validity, gross profit threshold, sellability, and confidence. Returns a status of `qualified`, `lead`, `near`, or `reject` with a reason. Also exports `identityScore()` and `calculateResaleProfit()`.
    - `candidates.js` — `buildCandidates()` runs O(n²) pairwise retailer comparisons then O(n×m) retailer-to-sold-comp comparisons, deduplicates results, and sorts by profit then confidence.
    - `text.js` — Pure text utilities: model number extraction (brand-specific patterns for Sony, DeWalt, Milwaukee, Makita, Bosch, Ryobi, plus general patterns), key-term extraction with stopword filtering, sellability classification, net-profit estimation, product text aggregation, category detection, and local store context attachment.
    - `sold.js` — `matchProductToSoldComp()` for eBay comps: brand matching, quantity extraction, model extraction, token-set similarity, and key-overlap scoring with relaxed thresholds.
@@ -89,7 +108,7 @@ CLI (flip-finder.js)
 
 ### Key Design Decisions
 
-- **Robots.txt fail-closed**: `robotsAllowed()` in `config.js` checks robots.txt before requests. A 403 or fetch failure returns `true` in the Node.js adapter (fail-open for the network call), but Menards is expected to return 403 — see `PATCH_NOTES.md` / `PATCH_README.md` for context on previous patches.
+- **Robots.txt**: `robotsAllowed()` is defined in `config.js` and exported (fail-open: a 403 or fetch failure returns `true`), but it is not currently called by the Best Buy adapter. The adapter navigates Best Buy directly with `?intl=nosplash` to bypass the country-selection page.
 - **Cache**: Query reports are cached to `output/cache/` with a 90-minute TTL. Use `--refresh` to bypass.
 - **No anti-bot bypass**: The codebase explicitly avoids CAPTCHA bypass, Cloudflare challenges, proxies, stealth plugins, and authentication.
 - **Manual verification is required**: Every candidate includes a `verificationChecklist` and `verificationStatus: "candidate_requires_local_inventory_and_listing_validation"`. No candidate is treated as a confirmed flip without manual checks.
@@ -110,10 +129,17 @@ src/
     text.js             ← Text extraction & classification utilities
     sold.js             ← matchProductToSoldComp() for eBay comps
     index.js            ← Barrel re-export
+  flip_finder.py        ← Python prototype (Walmart/Target, not actively maintained)
+  __init__.py           ← Python package marker
 data/
   stores.csv            ← Retailer/store list with addresses (no lat/lon — falls back to city centroids)
 output/                 ← Reports and cache (gitignored)
+.env.example            ← Template for required environment variables
 ```
+
+### Known Issues
+
+- `scrapeBestBuySpecificUrl` is imported in `src/scanner.js` (line 3) and called in the `--best-buy-url` code path, but it is **not exported** from `src/adapters/bestbuy.js`. The `--best-buy-url` mode will crash at runtime. Only normal search, clearance, and deals modes are currently functional.
 
 ### Debug Artifacts
 
